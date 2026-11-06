@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Brainrot Reel Tracker</string>
+    <string name="accessibility_service_description">Tracks Instagram Reel swipes on your phone to count daily reels and alert you at 50, 100, and 150+ milestones. Keeps zero credentials, uses zero internet data, and operates 100% locally on your device.</string>
+    <string name="perm_accessibility_title">Accessibility Service</string>
+    <string name="perm_accessibility_desc">Required to detect reel swipe transitions in Instagram</string>
+    <string name="perm_overlay_title">Display Over Other Apps</string>
+    <string name="perm_overlay_desc">Required to show the milestone emoji alert cards</string>
+    <string name="status_granted">ACTIVE</string>
+    <string name="status_missing">ENABLE</string>
+    <string name="today_reels">Today\'s Reels</string>
+    <string name="all_time_reels">All-Time Total</string>
+    <string name="reset_counter">Reset Today\'s Count</string>
+    <string name="test_50_alert">Preview 50 Alert (🫠)</string>
+    <string name="test_100_alert">Preview 100 Alert (💀)</string>
+</resources>
