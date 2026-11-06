@@ -39,4 +39,10 @@ class ReelSwipeDetectorTest {
         // Event after 800ms accepted
         assertTrue(detector.shouldCountSwipe("com.instagram.android", 1801L))
     }
+
+    @Test
+    fun testRejectsUpwardOrBackwardScrolls() {
+        // Swiping back to previous reel should not increment count
+        assertFalse(detector.shouldCountSwipe("com.instagram.android", 1000L, isScrollForwardOrDown = false))
+    }
 }

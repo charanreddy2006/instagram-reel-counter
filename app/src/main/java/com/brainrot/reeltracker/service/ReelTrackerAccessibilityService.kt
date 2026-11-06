@@ -1,6 +1,8 @@
 package com.brainrot.reeltracker.service
 
 import android.accessibilityservice.AccessibilityService
+import android.os.Build
+import android.os.SystemClock
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.brainrot.reeltracker.data.ReelPreferences
@@ -31,14 +33,19 @@ class ReelTrackerAccessibilityService : AccessibilityService() {
         val pkgName = event.packageName?.toString()
         if (pkgName != ReelSwipeDetector.INSTAGRAM_PACKAGE) return
 
-        // Filter scroll events that indicate vertical swiping between reels
-        if (event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED ||
-            event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
-        ) {
+        // Only count genuine scroll events; exclude window content changes, video playback progress, and UI redraws
+        if (event.eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
             val eventTime = event.eventTime
-            val effectiveTime = if (eventTime > 0) eventTime else System.currentTimeMillis()
+            val effectiveTime = if (eventTime > 0) eventTime else SystemClock.uptimeMillis()
 
-            if (swipeDetector.shouldCountSwipe(pkgName, effectiveTime)) {
+            // Verify downward / forward progression (scrollDeltaY >= 0 or advancing item index)
+            val isForward = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                event.scrollDeltaY >= 0
+            } else {
+                event.toIndex >= event.fromIndex
+            }
+
+            if (swipeDetector.shouldCountSwipe(pkgName, effectiveTime, isForward)) {
                 val newCount = preferences.incrementCount()
                 Log.d(TAG, "Reel swipe registered. Today's count: $newCount")
 

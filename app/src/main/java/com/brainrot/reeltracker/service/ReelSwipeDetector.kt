@@ -9,8 +9,16 @@ class ReelSwipeDetector(private val debounceWindowMs: Long = 800L) {
     }
 
     @Synchronized
-    fun shouldCountSwipe(packageName: String?, eventTimestamp: Long): Boolean {
+    fun shouldCountSwipe(
+        packageName: String?,
+        eventTimestamp: Long,
+        isScrollForwardOrDown: Boolean = true
+    ): Boolean {
         if (packageName != INSTAGRAM_PACKAGE) {
+            return false
+        }
+
+        if (!isScrollForwardOrDown) {
             return false
         }
 

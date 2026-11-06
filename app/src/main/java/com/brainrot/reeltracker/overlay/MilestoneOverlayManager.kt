@@ -74,8 +74,9 @@ object MilestoneOverlayManager {
                 // Haptic feedback
                 triggerHapticFeedback(context)
 
-                // Tap to dismiss
-                overlayView.setOnClickListener {
+                // Tap on card to dismiss
+                val cardContainer = overlayView.findViewById<View>(R.id.cardContainer)
+                cardContainer.setOnClickListener {
                     dismissOverlayWithAnimation(context, windowManager, overlayView)
                 }
 
